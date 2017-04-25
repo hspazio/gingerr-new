@@ -1,0 +1,74 @@
+<div class="row signal-banner bg-<%= @signal.error? ? 'danger' : 'success' %>">
+  <div class="col-md-12">
+    <h3>Apps
+      <i class="fa fa-chevron-right"></i>
+      <%= link_to @signal.app.name, app_path(@signal.app) %>
+      <i class="fa fa-chevron-right"></i>
+      <%= @signal.id %> <%= signal_type @signal %>
+    </h3>
+    <p>
+      Received in <%= time_tag @signal.created_at %> &bull; <%= time_ago_in_words(@signal.created_at) %> ago)
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <% if @signal.error? %>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-exclamation-circle"></i> Error info</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="error dl-horizontal">
+          <dt>Name</dt><dd><strong><%= link_to @error_info.name, nil, class: 'text-danger' %></strong></dd>
+          <dt>Message</dt><dd class="text-danger"><%= @error_info.message %></dd>
+          <dt>-</dt><dd></dd>
+          <dt>File</dt><dd><%= @error_info.file %></dd>
+          <dt>First Seen</dt><dd><%= time_tag @error_info.first_seen %></dd>
+          <dt>Last Seen</dt><dd><%= time_tag @error_info.last_seen %></dd>
+          <dt>Occurrences</dt><dd><%= @error_info.occurrences %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-television"></i> Endpoint</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="endpoint dl-horizontal">
+          <dt>#</dt><dd><%= @signal.endpoint.id %></dd>
+          <dt>Login</dt><dd><%= @signal.endpoint.login %></dd>
+          <dt>Hostname</dt><dd><%= @signal.endpoint.hostname %></dd>
+          <dt>IP</dt><dd><%= @signal.endpoint.ip %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @signal.error? %>
+  <div class="row">
+    <div class="signal-actions col-md-6">
+      <button class="btn btn-primary"><i class="fa fa-thumb-tack"></i> Create Ticket</button>
+      <button class="btn btn-success"><i class="fa fa-check"></i> Mark as Resolved</button>
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-file-text"></i> Stacktrace</h3>
+        </div>
+        <div class="panel-body">
+          <pre class="code"><%= @signal.error.backtrace %></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

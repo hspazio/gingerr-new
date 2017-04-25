@@ -1,0 +1,31 @@
+<%= render layout: 'shared/full_width_panel', locals: { title: "#{title} <small>latest 10</small>".html_safe, icon: 'bullhorn' } do %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>App</th>
+        <th>Endpoint</th>
+        <th>PID</th>
+        <th>Type</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% signals.each do |signal| %>
+          <tr>
+            <td><%= link_to signal.id, signal_path(signal) %></td>
+            <td><%= link_to signal.app_name, app_path(signal.app) %></td>
+            <td><%= signal.endpoint.login %>@<%= signal.endpoint.hostname %> (<%= signal.endpoint.ip%>)</td>
+            <td><%= signal.pid %></td>
+            <td><% if signal.error? %>
+                  <span class="label label-danger">Error</span>
+              <% else %>
+                  <span class="label label-success">Success</span>
+              <% end %>
+            </td>
+            <td><%= time_tag signal.created_at %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% end %>

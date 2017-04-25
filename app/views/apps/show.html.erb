@@ -1,0 +1,82 @@
+<h2>
+  Apps <i class="fa fa-chevron-right"></i> <%= @app.name %>
+  <small>ID: <%= @app.id %></small>
+</h2>
+
+<div class="row">
+  <div class="col-md-3 col-sm-6 col-sx-12">
+    <div class="panel-small panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Last Signal</h3>
+      </div>
+      <div class="panel-body">
+        <%= signal_type @app.current_signal %>
+        <%= time_ago_in_words @app.current_signal_created_at %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-sx-12">
+    <div class="panel-small panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Signal Frequency</h3>
+      </div>
+      <div class="panel-body">
+        <%= distance_of_time_in_words @app.signal_frequency %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-sx-12">
+    <div class="panel-small panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Alerts</h3>
+      </div>
+      <div class="panel-body">
+        Sent about 3 hours ago
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-sx-12">
+    <div class="panel-small panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Stability</h3>
+      </div>
+      <div class="panel-body">
+        <%= app_stability_score @app %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Signals</h3>
+  </div>
+  <div class="panel-body">
+    <%= column_chart Gingerr::AppStats.new(@app).recent_signals_timeline,
+      stacked: true,
+      library: { colors: [colors[:red], colors[:green]] } %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Errors</h3>
+  </div>
+  <div class="panel-body">
+    <%= line_chart @recent_errors %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Distance Between Signals</h3>
+  </div>
+  <div class="panel-body">
+    <%= Gingerr::Charts::DistanceBetweenSignals.new(@app, self).render %>
+  </div>
+</div>
+
+<%= render partial: 'gingerr/signals/table', locals: { signals: @signals, title: 'Recent signals' } %>
