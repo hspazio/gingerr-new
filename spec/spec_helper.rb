@@ -16,6 +16,20 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+RSpec::Matchers.define :have_errors_for do |attribute|
+  match do |actual|
+    actual.valid?
+    actual.errors[attribute].any?
+  end
+
+  failure_message do |actual|
+    "expected #{actual.errors[attribute]} to not to be empty"
+  end
+
+  failure_message_when_negated do |actual|
+    "expected #{actual.errors[attribute]} to be empty"
+  end
+end
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
