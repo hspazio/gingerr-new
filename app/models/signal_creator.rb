@@ -7,9 +7,9 @@ class SignalCreator
 
   def create(app, params)
     if params[:type]
-      signal_params = { pid: params[:pid], type: Signal.class_for_type(params[:type]) }
+      signal_params = { pid: params[:pid], type: BaseSignal.class_for_type(params[:type]) }
 
-      Signal.transaction do
+      BaseSignal.transaction do
         endpoint = Endpoint.from_params(params.slice(:ip, :hostname, :login))
         @errors += endpoint.errors.full_messages unless endpoint.persisted?
 

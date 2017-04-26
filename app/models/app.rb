@@ -1,5 +1,5 @@
 class App < ApplicationRecord
-  has_many :signals, -> { order('created_at DESC, id DESC') }
+  has_many :signals, -> { order('created_at DESC, id DESC') }, class_name: 'BaseSignal'
 
   validates :name, presence: true
 

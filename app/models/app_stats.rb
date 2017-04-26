@@ -5,7 +5,7 @@ class AppStats
 
   def recent_signals_timeline
     stats = { error: {}, success: {} }
-    signals = @app.signals.limit(50)
+    signals = @app.recent_signals(50)
     dates = (signals.last.created_at.to_date..signals.first.created_at.to_date).to_a
     dates.each do |date|
       stats[:success][date] = 0

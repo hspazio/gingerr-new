@@ -8,7 +8,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :signal, class: 'Signal' do
+  factory :signal, class: 'BaseSignal' do
     sequence(:pid){ |n| n }
 
     association :app
